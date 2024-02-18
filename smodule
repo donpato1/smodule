@@ -96,7 +96,7 @@ title(){
   msg -bar
   text="►► ${a_enter:-enter para continuar} ◄◄"
   if [[ -z $1 ]]; then
-    print_center -azu "$text"
+    print_center -blak "$text"
   else
     print_center "$1" "$text"
   fi
