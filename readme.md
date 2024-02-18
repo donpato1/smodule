@@ -2,6 +2,7 @@
 estructura by @Rufu99
 
 <h3> usando wget </h3>
+
 ```
 wget https://github.com/donpato1/smodule/raw/main/smodule &> /dev/null && chmod +rwx smodule
 ```
