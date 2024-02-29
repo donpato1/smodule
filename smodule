@@ -186,7 +186,7 @@ ${comando[0]} -y > /dev/null 2>&1
 ${comando[1]} -y > /dev/null 2>&1
 touch $HOME/fim
  ) &> /dev/null 2>&1
-echo -ne "\033[1;33m ["
+echo -ne "    \033[1;33m["
 while true; do
    for((i=0; i<36; i++)); do
    echo -ne "\033[1;31m>"
@@ -202,6 +202,34 @@ done
 echo -e "\033[1;33m]\033[1;31m -\033[1;32m 100%\033[1;37m"
 }
 
+fun_tit(){
+clear
+echo -e "┏━┓┏━┓╺┳╸┏━┓┏┓ ┏━┓╺┳╸
+┣━┛┣━┫ ┃ ┃ ┃┣┻┓┃ ┃ ┃ 
+╹  ╹ ╹ ╹ ┗━┛┗━┛┗━┛ ╹ "|lolcat
+msg -bar
+[[ ! -z $1 ]] && print_center -blak "$1" && msg -bar
+}
+
+null(){
+local ext=$3
+ [[ $1 != @(-n|--null) ]] && {
+ until [[ $1 == '--purge' ]]; do
+    while true ; do
+        for null in `echo $1|tr -d "-"`; do
+	    drowkid=$(jq '{system: [{configure: "dpkg --configure -a", install: "apt -f install", remove: "apt-get autoremove", clean: "apt clean", autoremove: "apt-get autoremove" }, {configure: "RECONFIGURANDO PAQUETES", install: "ACTUALIZANDO SISTEMA", remove: "REMOVIENDO PAQUETE", clean: "ACTUALIZANDO REPOSITORIOS", autoremove: "RECONFIGURANDO RECURSOS"}]}' -n|jq -r .system[0].$null)
+	    texto=$(jq '{system: [{configure: "dpkg --configure -a", install: "apt -f install", remove: "apt-get autoremove", clean: "apt clean", autoremove: "apt-get autoremove" }, {configure: "RECONFIGURANDO PAQUETES", install: "ACTUALIZANDO SISTEMA", remove: "REMOVIENDO PAQUETE", clean: "ACTUALIZANDO REPOSITORIOS", autoremove: "RECONFIGURANDO RECURSOS"}]}' -n|jq -r .system[1].$null)
+	    print_center -blak "\e[96m$texto"
+	    fun_bar "${drowkid}" && return $?
+        done
+    done
+ done
+ } || {
+	$2 &> /dev/null
+ }
+}
+
+export -f fun_tit
 export -f msg
 export -f selection_fun
 export -f menu_func
