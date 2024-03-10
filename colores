@@ -3,7 +3,7 @@ export system=$(cat -n /etc/issue |grep 1 |cut -d ' ' -f6,7,8 |sed 's/1//' |sed 
 export version=$(echo $system|awk '{print $2}'|cut -d '.' -f1,2)
 
 c[0]='\e[0m'
-sdir[0]='/etc/VPS-MX'
+sdir[0]='.'
 
 test "$(uname -m)" != 'armv7l'
 	[[ $? != $OPTIND ]] && check='@darnix0' || check='@drowkid01'
@@ -58,13 +58,16 @@ SEMCOR='\e[0m'
   -blak)echo -e "\e[1;30m$2\e[0m";;
   -bra)cor="${COLOR[0]}${SEMCOR}" && echo -e "${cor}${2}${SEMCOR}";;
   "-bar2"|"-bar")cor="\e[1;30m————————————————————————————————————————————————————" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
-  -tit)clear
-echo -e "\e[91m≪━━─━━─━─━─━─━─━━─━━─━─━─◈─━━─━─━─━─━━─━─━━─━─━━─━≫   \e[0m 
+  '-tit')clear
+echo -ne "\e[91m≪━━─━━─━─━─━─━─━━─━━─━─━─◈─━━─━─━─━─━━─━─━━─━─━━─━≫   \e[0m 
  \e[1;97m\e[1;93m ❯❯❯❯ \e[9mＳＣＲＩＰＴ－ＭＯＤ  ＬＡ ＣＡＳＩＴＡ\e[0m\e[1;93m  ❮❮❮❮
 \e[91m≪━━─━─━━━─━─━─━─━─━━─━─━─◈─━─━─━─━─━━━─━─━─━━━─━─━≫   \e[0m
 		\033[0m\033[1;31m[\033[1;32m$vesaoSCT\e[91m]
+\e[91m≪━━─━─━━━─━─━─━─━─━━─━─━─◈─━─━─━─━─━━━─━─━─━━━─━─━≫   \e[0m\n";;
+ '-st')echo -e "\e[91m≪━━─━━─━─━─━─━─━━─━━─━─━─◈─━━─━─━─━─━━─━─━━─━─━━─━≫   \e[0m 
+ \e[1;97m\e[1;93m ❯❯❯❯ \e[9mＳＣＲＩＰＴ－ＭＯＤ  ＬＡ ＣＡＳＩＴＡ\e[0m\e[1;93m  ❮❮❮❮
 \e[91m≪━━─━─━━━─━─━─━─━─━━─━─━─◈─━─━─━─━─━━━─━─━─━━━─━─━≫   \e[0m
-";;
+		${2}"&&msg -bar;;
  esac
 }
 
@@ -183,11 +186,7 @@ title(){
  }
 
 # opcion, regresar volver/atras
-back(){
-    msg -bar
-    echo -ne "$(msg -verd " [0]") $(msg -verm2 ">") " && msg -bra "\033[1;41mVOLVER"
-    msg -bar
- }
+
 fun_bar () {
 comando[0]="$1"
 comando[1]="$2"
@@ -219,37 +218,11 @@ del(){
   done
 }
 
-function aguarde() {
-[[ -e $(pwd)/check ]] && rm $(pwd)/check
-unset txt run
-txt=("$(echo $1|cut -d'|' -f1)" "$(echo $1|cut -d'|' -f2)")
-run="$2"
-sleep .1
- helice() {
-	tput civis
-	eval $(${run}) &> check
-	while true ; do
-		for i in / - \\ \|; do
-			sleep .1
-			echo -ne "\e[1D$i"
-			[[ -s check ]] || return $?
-		done
-	done
-	tput cnorm
- }
-	#echo -ne "\033[1;37m ${txt[1]} \033[1;32m.\033[1;32m.\033[1;33m.\033[1;31m. \033[1;33m"
- msg -ne "${txt[0]}  " && echo -ne "\033[1;32m${txt[1]} .\033[1;32m.\033[1;33m.\033[1;31m. \033[1;33m"
- helice
- echo -ne "\e[1DOk"
- [[ -e $(pwd)/check ]] && rm $(pwd)/check
-#aguarde 'OPTIMIZANDO LOS RECURSOS|DEL SISTEMA' "$(echo -e {a..z}-file.txt|xargs mkdir)"
-}
 
-
-funcaos=('msg' 'aguarde' 'enter' 'back' 'fun_bar' 'del' 'title' 'tittle' 'print_center' 'menu_func' 'selection_fun' 'fun_trans' )
+funcaos=('msg' 'enter' 'fun_bar' 'del' 'title' 'tittle' 'print_center' 'menu_func' 'selection_fun' 'fun_trans' )
 
 	if((${#funcaos}));then
-	    for((a=0;a<${#funcaos[@]};a++));do
+	    for((a=0;a<=${#funcaos[@]};a++));do
 		export -f "${funcaos[$a]}"
 	    done
 	fi
